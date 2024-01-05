@@ -7,17 +7,17 @@ class ReserveMovie {
   }
 
   async execute(movieId) {
-    const movie = await this.movieRepository.getById(movieId)
-    if(!movie) throw new Error("Movie not found")
-    if(!movie.isAvailable) throw new Error("Movie is not available")
-    const newReserve = Reserve.create(movieId)
-    await this.reserveRepository.save(newReserve)
-    movie.isAvailable = false
-    await this.movieRepository.update(movie)
+    const movie = await this.movieRepository.getById(movieId);
+    if (!movie) throw new Error("Movie not found");
+    if (!movie.isAvailable) throw new Error("Movie is not available");
+    const newReserve = Reserve.create(movieId);
+    await this.reserveRepository.save(newReserve);
+    movie.isAvailable = false;
+    await this.movieRepository.update(movie);
     return {
       reserveId: newReserve.reserveId,
-      status: newReserve.status
-    }
+      status: newReserve.status,
+    };
   }
 }
 

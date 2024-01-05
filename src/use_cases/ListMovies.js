@@ -5,7 +5,10 @@ class ListMovies {
 
   async execute(limit, offset) {
     const output = await this.repository?.list(limit, offset);
-    return Promise.resolve(output);
+    for (let movie of output) {
+      delete movie.isAvailable;
+    }
+    return Promise.resolve({ movies: output });
   }
 }
 
