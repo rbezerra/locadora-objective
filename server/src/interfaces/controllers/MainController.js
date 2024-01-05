@@ -1,15 +1,17 @@
 const express = require("express");
-const MovieMemoryRepository = require("../repositories/MovieMemoryRepository");
-const ReserveMemoryRepository = require("../repositories/ReserveMemoryRepository");
-const ScheduleMemoryRepository = require("../repositories/ScheduleMemoryRepository");
 const ListMovies = require("../../use_cases/ListMovies");
 const ReserveMovie = require("../../use_cases/ReserveMovie");
 const ConfirmSchedule = require("../../use_cases/ConfirmSchedule");
 const ReturnMovie = require("../../use_cases/ReturnMovie");
+const MongoClientAdapter = require("../../infra/database/MongoClientAdapter");
+const MovieMongoRepository = require("../repositories/MovieMongoRepository");
+const ReserveMongoRepository = require("../repositories/ReserveMongoRepository");
+const ScheduleMongoRepository = require("../repositories/ScheduleMongoRepository");
 
-const movieRepository = new MovieMemoryRepository();
-const reserveRepository = new ReserveMemoryRepository();
-const scheduleRepository = new ScheduleMemoryRepository();
+const mongoClient = MongoClientAdapter().getInstance();
+const movieRepository = new MovieMongoRepository(mongoClient);
+const reserveRepository = new ReserveMongoRepository(mongoClient);
+const scheduleRepository = new ScheduleMongoRepository(mongoClient);
 const router = express.Router();
 
 router.get("/all", async (req, res) => {
@@ -56,25 +58,25 @@ router.post("/confirm", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
 
-  router.put("/return", async (req, res) => {
-    try {
-      const { scheduleId } = req.body;
-      if (!scheduleId)
-        res.status(400).json({ message: "scheduleId is required" });
+router.put("/return", async (req, res) => {
+  try {
+    const { scheduleId } = req.body;
+    if (!scheduleId)
+      res.status(400).json({ message: "scheduleId is required" });
 
-      const returnMovie = new ReturnMovie(
-        movieRepository,
-        scheduleRepository,
-        reserveRepository
-      );
+    const returnMovie = new ReturnMovie(
+      movieRepository,
+      scheduleRepository,
+      reserveRepository
+    );
 
-      const output = await returnMovie.execute(scheduleId);
-      res.status(200).json(output);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  });
+    const output = await returnMovie.execute(scheduleId);
+    res.status(200).json(output);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 module.exports = router;
