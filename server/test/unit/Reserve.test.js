@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const Reserve = require("../../src/entities/Reserve");
 
 test("should create a reserve", () => {
@@ -5,4 +6,14 @@ test("should create a reserve", () => {
 
   expect(reserve).toBeDefined();
   expect(reserve.status).toBe("WAITING");
+});
+
+test("should restore a reserve", () => {
+  const uuid = crypto.randomUUID();
+  const movieId = crypto.randomUUID();
+  const reserve = Reserve.restore(uuid, movieId, new Date(), "WAITING");
+
+  expect(reserve).toBeDefined();
+  expect(reserve.reserveId).toBe(uuid);
+  expect(reserve.movieId).toBe(movieId);
 });

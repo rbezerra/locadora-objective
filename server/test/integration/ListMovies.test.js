@@ -12,17 +12,17 @@ beforeEach(() => {
 test("should list movies in repository", async () => {
   const outputListMovies = await listMovies.execute();
   expect(outputListMovies).toBeDefined();
-  expect(outputListMovies?.length).toBeGreaterThan(0);
+  expect(outputListMovies?.movies?.length).toBeGreaterThan(0);
 });
 
 test("should return a list of movies of certain quantity", async () => {
   const outputListMovies = await listMovies.execute(5, 0);
   expect(outputListMovies).toBeDefined();
-  expect(outputListMovies.length).toBe(5);
+  expect(outputListMovies?.movies?.length).toBe(5);
 });
 
 test("should return a list of available movies only", async () => {
   const outputListMovies = await listMovies.execute();
   expect(outputListMovies).toBeDefined();
-  expect(outputListMovies.length).toBe(9);
+  expect(outputListMovies?.movies?.length).toBe(9);
 });

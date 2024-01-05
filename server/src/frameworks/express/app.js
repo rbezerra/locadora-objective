@@ -1,23 +1,28 @@
-const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./../../../swagger.json");
-const mainController = require("../../interfaces/controllers/MainController");
+class App {
+  constructor(controllers) {
+    this.app = express();
+    this.app.use(express.json());
+    this.app.use(cors());
+    this.app.use("/swagger", swaggerUi.serve);
+    this.app.get("/swagger", swaggerUi.setup(swaggerDocument));
 
-dotenv.config();
-const PORT = process.env.PORT || 3000;
+    for (const controller of controllers)
+      this.app.use(controller.path, controller.instance.getRouter());
+  }
 
-const app = express();
+  async getInstance() {
+    return this.app;
+  }
 
-app.use(express.json());
-app.use(cors());
-app.use("/api", mainController);
-app.use("/swagger", swaggerUi.serve);
-app.get("/swagger", swaggerUi.setup(swaggerDocument));
+  async listen(port) {
+    return this.app.listen(port, () => {
+      console.log(`Servidor iniciado na porta ${port} `);
+    });
+  }
+}
 
-app.listen(PORT, () => {
-  console.log(`Servidor iniciado na porta ${PORT} `);
-});
-
-module.exports = app;
+module.exports = App;
