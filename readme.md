@@ -6,7 +6,7 @@ API com operações de locadora feita com o objetivo de atender às expectativas
 
   - Clonar a aplicação
 
-    ```git clone ```
+    ```git clone https://github.com/rbezerra/locadora-objective```
 
   - Instalar dependências
     ```npm install```
