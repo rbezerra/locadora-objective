@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./../../../swagger.json");
-const mainController = require("./../../interfaces/controllers/MainController");
+const mainController = require("../../interfaces/controllers/MainController");
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;

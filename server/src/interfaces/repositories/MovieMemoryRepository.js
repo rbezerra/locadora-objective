@@ -1,4 +1,4 @@
-const Movie = require("./../../entities/Movie");
+const Movie = require("../../entities/Movie");
 
 class MovieMemoryRepository {
   constructor() {
