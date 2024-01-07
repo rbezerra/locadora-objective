@@ -30,7 +30,7 @@ API com operações de locadora feita com o objetivo de atender às expectativas
 
 ## Operações
 
-A API conta com as sseguintes operações
+A API conta com as seguintes operações
 
 - /api/all - listagem de todos os filmes disponíveis para download
 - /api/book - criação de reserva para um filme
@@ -38,6 +38,8 @@ A API conta com as sseguintes operações
 - /api/return - devolução de um filme alugada
 
 - /swagger - Documentação das rotas disponíveis com mais detalhes e possibilidade de testes
+
+Além de um serviço Cron que roda a cada minuto em busca de reservas criadas mas que expiram após 3 horas sem uma reserva
  
 ## Tecnologias utilizadas
 
