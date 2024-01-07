@@ -7,6 +7,7 @@ const MainController = require("./interfaces/controllers/MainController");
 const MovieMongoRepository = require("./interfaces/repositories/MovieMongoRepository");
 const ReserveMongoRepository = require("./interfaces/repositories/ReserveMongoRepository");
 const ScheduleMongoRepository = require("./interfaces/repositories/ScheduleMongoRepository");
+const cronJobs = require("./infra/cronjobs/CronJobs.js");
 
 const PORT = process.env.PORT || 3000;
 
@@ -23,4 +24,7 @@ const mainController = new MainController(
 const controllers = [{ path: "/api", instance: mainController }];
 
 const app = new App(controllers);
+
+cronJobs.initCronJobs();
+
 app.listen(PORT);

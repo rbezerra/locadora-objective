@@ -3,11 +3,6 @@ const ListMovies = require("../../use_cases/ListMovies");
 const ReserveMovie = require("../../use_cases/ReserveMovie");
 const ConfirmSchedule = require("../../use_cases/ConfirmSchedule");
 const ReturnMovie = require("../../use_cases/ReturnMovie");
-const MongoClientAdapter = require("../../infra/database/MongoClientAdapter");
-const MovieMongoRepository = require("../repositories/MovieMongoRepository");
-const ReserveMongoRepository = require("../repositories/ReserveMongoRepository");
-const ScheduleMongoRepository = require("../repositories/ScheduleMongoRepository");
-
 class MainController {
   constructor(movieRepository, reserveRepository, scheduleRepository) {
     this.router = express.Router();

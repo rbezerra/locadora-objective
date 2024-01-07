@@ -48,6 +48,12 @@ class ReserveMongoRepository {
       }
     );
   }
+
+  async getExpired() {
+    return this.reserveCollection
+      .find({ expireAt: { $lt: new Date() }, status: "WAITING" })
+      .toArray();
+  }
 }
 
 module.exports = ReserveMongoRepository;

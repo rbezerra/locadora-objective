@@ -21,10 +21,18 @@ class ReserveMemoryRepository {
 
   async update(reserve) {
     const reserveToUpdateIndex = await this.reserves.findIndex(
-      (m) => m.reserveId === reserve.reserveId
+      (r) => r.reserveId === reserve.reserveId
     );
     if (reserveToUpdateIndex < 0) throw new Error("Reserve not found");
     this.reserves[reserveToUpdateIndex] = reserve;
+  }
+
+  async getExpired() {
+    const now = new Date();
+    const expiredReserves = await this.reserves.filter((r) => {
+      return r.expireAt < now && r.status === "WAITING";
+    });
+    return Promise.resolve(expiredReserves);
   }
 }
 
